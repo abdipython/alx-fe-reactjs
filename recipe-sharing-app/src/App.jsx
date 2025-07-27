@@ -9,6 +9,8 @@ import AddRecipeForm from './components/AddRecipeForm';
 import RecipeList from './components/RecipeList';
 import RecipeDetails from './components/RecipeDetails';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import FavoritesList from './components/FavoritesList';
+import RecommendationsList from './components/RecommendationsList';
 
 function App() {
   return (
@@ -124,6 +126,14 @@ function App() {
     </Router>
   );
 }
-
+function App() {
+  return (
+    <>
+      {/* Other UI components */}
+      <FavoritesList />
+      <RecommendationsList />
+    </>
+  );
+}
 
 export default App;
