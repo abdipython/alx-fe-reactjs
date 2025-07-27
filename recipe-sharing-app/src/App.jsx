@@ -8,6 +8,7 @@ import { Routes, Route, Link } from 'react-router-dom';
 import AddRecipeForm from './components/AddRecipeForm';
 import RecipeList from './components/RecipeList';
 import RecipeDetails from './components/RecipeDetails';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
 function App() {
   return (
@@ -97,5 +98,32 @@ function App() {
     </div>
   );
 }
+function App() {
+  return (
+    <Router>
+      <div>
+        <h1>🍲 Recipe Sharing App</h1>
+        <nav>
+          <Link to="/">Home</Link>
+        </nav>
+
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <SearchBar />
+                <AddRecipeForm />
+                <RecipeList />
+              </>
+            }
+          />
+          <Route path="/recipe/:id" element={<RecipeDetails />} />
+        </Routes>
+      </div>
+    </Router>
+  );
+}
+
 
 export default App;
