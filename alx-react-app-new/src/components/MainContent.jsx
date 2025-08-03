@@ -13,7 +13,7 @@ function MainContent() {
       <h2 style={{ fontSize: '24px', marginBottom: '10px' }}>Explore the World</h2>
       <p style={{ fontSize: '18px' }}>
         Discover amazing cities and what makes each one unique.
-        I love to visit New York, Paris, and Tokyo."]
+        "I love to visit New York, Paris, and Tokyo."git 
       </p>
     </main>
   );
