@@ -17,7 +17,7 @@ export default function Search() {
       const data = await fetchUserData(username);
       setUserData(data);
     } catch (err) {
-      setError('Looks like we can’t find the user');
+      setError('Looks like we cant find the user');
     } finally {
       setLoading(false);
     }
@@ -44,4 +44,18 @@ export default function Search() {
 
       {userData && (
         <div className="text-center mt-4 border p-4 rounded-md shadow-md">
-          <img src={userData.avatar_url} alt={userData.login} className="w-24 h-24 rounded-full mx-auto"_
+          <img src={userData.avatar_url} alt={userData.login} className="w-24 h-24 rounded-full mx-auto" />
+          <h2 className="text-lg font-semibold mt-2">{userData.name || userData.login}</h2>
+          <a
+            href={userData.html_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 underline"
+          >
+            View GitHub Profile
+          </a>
+        </div>
+      )}
+    </div>
+  );
+}
