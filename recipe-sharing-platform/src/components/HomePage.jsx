@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import data from "../data.json";
 
+
 function HomePage() {
   const [recipes, setRecipes] = useState([]);
 
@@ -37,7 +38,17 @@ function HomePage() {
           </div>
         ))}
       </div>
+      <h1 className="text-4xl font-bold mb-8 text-center">Recipe Sharing Platform</h1>
+<div className="text-center mb-6">
+  <Link
+    to="/add-recipe"
+    className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition duration-300"
+  >
+    + Add New Recipe
+  </Link>
+</div>
     </div>
+    
   );
 }
 
