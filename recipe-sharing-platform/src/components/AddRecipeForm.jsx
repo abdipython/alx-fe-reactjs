@@ -6,7 +6,6 @@ function AddRecipeForm() {
   const [steps, setSteps] = useState("");
   const [errors, setErrors] = useState({});
 
-  // <-- Required validate function
   const validate = () => {
     const e = {};
 
@@ -43,12 +42,8 @@ function AddRecipeForm() {
     const formErrors = validate();
     setErrors(formErrors);
 
-    if (Object.keys(formErrors).length > 0) {
-      // validation failed
-      return;
-    }
+    if (Object.keys(formErrors).length > 0) return;
 
-    // build new recipe object (you can replace id creation with your own logic)
     const newRecipe = {
       id: Date.now(),
       title: title.trim(),
@@ -62,11 +57,9 @@ function AddRecipeForm() {
         .filter(Boolean),
     };
 
-    // For now we just log it. Replace with your state update / API call.
     console.log("New recipe submitted:", newRecipe);
     alert("Recipe submitted successfully!");
 
-    // reset form
     setTitle("");
     setIngredients("");
     setSteps("");
@@ -78,36 +71,40 @@ function AddRecipeForm() {
       <h1 className="text-3xl font-bold mb-6 text-center">Add New Recipe</h1>
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-6 rounded-lg shadow-lg max-w-lg mx-auto"
+        className="bg-white p-6 md:p-8 rounded-lg shadow-lg max-w-lg mx-auto"
         noValidate
       >
         {/* Title */}
-        <div className="mb-4">
+        <div className="mb-4 md:mb-6">
           <label className="block font-semibold mb-2">Recipe Title</label>
           <input
             type="text"
             className={`w-full border rounded-lg p-2 focus:outline-none focus:ring-2 ${
-              errors.title ? "border-red-400 focus:ring-red-200" : "border-gray-300 focus:ring-blue-200"
+              errors.title
+                ? "border-red-400 focus:ring-red-200"
+                : "border-gray-300 focus:ring-blue-200"
             }`}
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="e.g., Chocolate Cake"
-            aria-invalid={errors.title ? "true" : "false"}
           />
-          {errors.title && <p className="text-red-500 text-sm mt-1">{errors.title}</p>}
+          {errors.title && (
+            <p className="text-red-500 text-sm mt-1">{errors.title}</p>
+          )}
         </div>
 
         {/* Ingredients */}
-        <div className="mb-4">
+        <div className="mb-4 md:mb-6">
           <label className="block font-semibold mb-2">Ingredients</label>
           <textarea
             className={`w-full border rounded-lg p-2 h-28 focus:outline-none focus:ring-2 ${
-              errors.ingredients ? "border-red-400 focus:ring-red-200" : "border-gray-300 focus:ring-blue-200"
+              errors.ingredients
+                ? "border-red-400 focus:ring-red-200"
+                : "border-gray-300 focus:ring-blue-200"
             }`}
             value={ingredients}
             onChange={(e) => setIngredients(e.target.value)}
             placeholder="List ingredients, one per line"
-            aria-invalid={errors.ingredients ? "true" : "false"}
           />
           {errors.ingredients && (
             <p className="text-red-500 text-sm mt-1">{errors.ingredients}</p>
@@ -115,24 +112,27 @@ function AddRecipeForm() {
         </div>
 
         {/* Steps */}
-        <div className="mb-4">
+        <div className="mb-4 md:mb-6">
           <label className="block font-semibold mb-2">Preparation Steps</label>
           <textarea
             className={`w-full border rounded-lg p-2 h-28 focus:outline-none focus:ring-2 ${
-              errors.steps ? "border-red-400 focus:ring-red-200" : "border-gray-300 focus:ring-blue-200"
+              errors.steps
+                ? "border-red-400 focus:ring-red-200"
+                : "border-gray-300 focus:ring-blue-200"
             }`}
             value={steps}
             onChange={(e) => setSteps(e.target.value)}
             placeholder="List steps, one per line"
-            aria-invalid={errors.steps ? "true" : "false"}
           />
-          {errors.steps && <p className="text-red-500 text-sm mt-1">{errors.steps}</p>}
+          {errors.steps && (
+            <p className="text-red-500 text-sm mt-1">{errors.steps}</p>
+          )}
         </div>
 
         {/* Submit */}
         <button
           type="submit"
-          className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300"
+          className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 md:py-3"
         >
           Submit Recipe
         </button>
@@ -142,3 +142,4 @@ function AddRecipeForm() {
 }
 
 export default AddRecipeForm;
+
