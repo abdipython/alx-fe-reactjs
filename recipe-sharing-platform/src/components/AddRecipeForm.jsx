@@ -6,40 +6,71 @@ function AddRecipeForm() {
   const [steps, setSteps] = useState("");
   const [errors, setErrors] = useState({});
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    let formErrors = {};
+  // <-- Required validate function
+  const validate = () => {
+    const e = {};
 
-    // Validation
     if (!title.trim()) {
-      formErrors.title = "Recipe title is required";
-    }
-    if (!ingredients.trim()) {
-      formErrors.ingredients = "Please enter ingredients";
-    } else if (ingredients.split("\n").length < 2) {
-      formErrors.ingredients = "Please list at least two ingredients (one per line)";
-    }
-    if (!steps.trim()) {
-      formErrors.steps = "Please enter preparation steps";
+      e.title = "Recipe title is required";
     }
 
+    const ingredientsArr = ingredients
+      .split("\n")
+      .map((s) => s.trim())
+      .filter(Boolean);
+
+    if (ingredientsArr.length === 0) {
+      e.ingredients = "Please enter ingredients (one per line)";
+    } else if (ingredientsArr.length < 2) {
+      e.ingredients = "Please list at least two ingredients (one per line)";
+    }
+
+    const stepsArr = steps
+      .split("\n")
+      .map((s) => s.trim())
+      .filter(Boolean);
+
+    if (stepsArr.length === 0) {
+      e.steps = "Please enter preparation steps (one per line)";
+    }
+
+    return e;
+  };
+
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+
+    const formErrors = validate();
     setErrors(formErrors);
 
-    // If no errors, process form
-    if (Object.keys(formErrors).length === 0) {
-      const newRecipe = {
-        title,
-        ingredients: ingredients.split("\n"),
-        instructions: steps.split("\n"),
-      };
-      console.log("New recipe submitted:", newRecipe);
-      alert("Recipe submitted successfully!");
-
-      // Clear form
-      setTitle("");
-      setIngredients("");
-      setSteps("");
+    if (Object.keys(formErrors).length > 0) {
+      // validation failed
+      return;
     }
+
+    // build new recipe object (you can replace id creation with your own logic)
+    const newRecipe = {
+      id: Date.now(),
+      title: title.trim(),
+      ingredients: ingredients
+        .split("\n")
+        .map((s) => s.trim())
+        .filter(Boolean),
+      instructions: steps
+        .split("\n")
+        .map((s) => s.trim())
+        .filter(Boolean),
+    };
+
+    // For now we just log it. Replace with your state update / API call.
+    console.log("New recipe submitted:", newRecipe);
+    alert("Recipe submitted successfully!");
+
+    // reset form
+    setTitle("");
+    setIngredients("");
+    setSteps("");
+    setErrors({});
   };
 
   return (
@@ -48,31 +79,38 @@ function AddRecipeForm() {
       <form
         onSubmit={handleSubmit}
         className="bg-white p-6 rounded-lg shadow-lg max-w-lg mx-auto"
+        noValidate
       >
         {/* Title */}
         <div className="mb-4">
           <label className="block font-semibold mb-2">Recipe Title</label>
           <input
             type="text"
-            className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className={`w-full border rounded-lg p-2 focus:outline-none focus:ring-2 ${
+              errors.title ? "border-red-400 focus:ring-red-200" : "border-gray-300 focus:ring-blue-200"
+            }`}
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="e.g., Chocolate Cake"
+            aria-invalid={errors.title ? "true" : "false"}
           />
-          {errors.title && <p className="text-red-500 text-sm">{errors.title}</p>}
+          {errors.title && <p className="text-red-500 text-sm mt-1">{errors.title}</p>}
         </div>
 
         {/* Ingredients */}
         <div className="mb-4">
           <label className="block font-semibold mb-2">Ingredients</label>
           <textarea
-            className="w-full border border-gray-300 rounded-lg p-2 h-28 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className={`w-full border rounded-lg p-2 h-28 focus:outline-none focus:ring-2 ${
+              errors.ingredients ? "border-red-400 focus:ring-red-200" : "border-gray-300 focus:ring-blue-200"
+            }`}
             value={ingredients}
             onChange={(e) => setIngredients(e.target.value)}
             placeholder="List ingredients, one per line"
+            aria-invalid={errors.ingredients ? "true" : "false"}
           />
           {errors.ingredients && (
-            <p className="text-red-500 text-sm">{errors.ingredients}</p>
+            <p className="text-red-500 text-sm mt-1">{errors.ingredients}</p>
           )}
         </div>
 
@@ -80,12 +118,15 @@ function AddRecipeForm() {
         <div className="mb-4">
           <label className="block font-semibold mb-2">Preparation Steps</label>
           <textarea
-            className="w-full border border-gray-300 rounded-lg p-2 h-28 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className={`w-full border rounded-lg p-2 h-28 focus:outline-none focus:ring-2 ${
+              errors.steps ? "border-red-400 focus:ring-red-200" : "border-gray-300 focus:ring-blue-200"
+            }`}
             value={steps}
             onChange={(e) => setSteps(e.target.value)}
             placeholder="List steps, one per line"
+            aria-invalid={errors.steps ? "true" : "false"}
           />
-          {errors.steps && <p className="text-red-500 text-sm">{errors.steps}</p>}
+          {errors.steps && <p className="text-red-500 text-sm mt-1">{errors.steps}</p>}
         </div>
 
         {/* Submit */}
@@ -101,4 +142,3 @@ function AddRecipeForm() {
 }
 
 export default AddRecipeForm;
-
