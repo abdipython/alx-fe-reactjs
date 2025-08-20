@@ -1,5 +1,7 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import RegistrationForm from "./components/RegistrationForm";
+import FormikForm from "./components/formikForm";
 
 const validationSchema = Yup.object({
   username: Yup.string().required("Username is required"),
@@ -47,6 +49,10 @@ export default function FormikForm() {
           <label className="block">Password</label>
           <Field name="password" type="password" className="border p-2 w-full" />
           <ErrorMessage name="password" component="p" className="text-red-500 text-sm" />
+        </div>
+        <div className="flex gap-8 p-8">
+      <RegistrationForm />
+      <FormikForm />
         </div>
 
         <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded">
