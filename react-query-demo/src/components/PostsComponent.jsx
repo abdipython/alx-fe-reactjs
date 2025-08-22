@@ -4,40 +4,37 @@ import { useQuery } from "@tanstack/react-query";
 
 // Function to fetch posts
 const fetchPosts = async () => {
-  const response = await fetch("https://jsonplaceholder.typicode.com/posts");
-  if (!response.ok) {
-    throw new Error("Network response was not ok");
-  }
-  return response.json();
+  const res = await fetch("https://jsonplaceholder.typicode.com/posts");
+  if (!res.ok) throw new Error("Failed to fetch posts");
+  return res.json();
 };
 
 const PostsComponent = () => {
   const {
-    isLoading,
-    isError,
     data,
     error,
+    isError,
+    isLoading,
   } = useQuery({
     queryKey: ["posts"],
     queryFn: fetchPosts,
+    cacheTime: 1000 * 60 * 5, // 5 minutes
+    staleTime: 1000 * 60,     // 1 minute
+    refetchOnWindowFocus: false,
+    keepPreviousData: true,
   });
 
-  if (isLoading) {
-    return <p>Loading posts...</p>;
-  }
-
-  if (isError) {
-    return <p>Error: {error.message}</p>;
-  }
+  if (isLoading) return <p>Loading posts...</p>;
+  if (isError) return <p>Error: {error.message}</p>;
 
   return (
-    <div className="p-4">
+    <div>
       <h2 className="text-xl font-bold mb-4">Posts</h2>
       <ul className="space-y-2">
         {data.map((post) => (
-          <li key={post.id} className="p-3 border rounded-lg shadow-sm">
+          <li key={post.id} className="border p-2 rounded shadow">
             <h3 className="font-semibold">{post.title}</h3>
-            <p className="text-sm text-gray-600">{post.body}</p>
+            <p>{post.body}</p>
           </li>
         ))}
       </ul>
@@ -46,3 +43,4 @@ const PostsComponent = () => {
 };
 
 export default PostsComponent;
+
