@@ -2,7 +2,6 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 
-// Function to fetch posts
 const fetchPosts = async () => {
   const res = await fetch("https://jsonplaceholder.typicode.com/posts");
   if (!res.ok) throw new Error("Failed to fetch posts");
@@ -15,6 +14,7 @@ const PostsComponent = () => {
     error,
     isError,
     isLoading,
+    refetch,
   } = useQuery({
     queryKey: ["posts"],
     queryFn: fetchPosts,
@@ -30,6 +30,15 @@ const PostsComponent = () => {
   return (
     <div>
       <h2 className="text-xl font-bold mb-4">Posts</h2>
+
+      {/* ✅ Button with onClick */}
+      <button
+        onClick={() => refetch()}
+        className="mb-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+      >
+        Refetch Posts
+      </button>
+
       <ul className="space-y-2">
         {data.map((post) => (
           <li key={post.id} className="border p-2 rounded shadow">
