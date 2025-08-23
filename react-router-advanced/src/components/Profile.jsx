@@ -1,35 +1,46 @@
-// src/App.jsx
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import Home from "./components/Home";
-import PostsComponent from "./components/PostsComponent";
-import Profile from "./components/Profile";
+// src/components/Profile.jsx
+import { Routes, Route, Link } from "react-router-dom";
 
-function App() {
+// Sub-components
+function ProfileDetails() {
   return (
-    <BrowserRouter>
-      <div className="p-6">
-        {/* Simple Navbar */}
-        <nav className="mb-6 space-x-4">
-          <Link to="/" className="text-blue-600 hover:underline">
-            Home
-          </Link>
-          <Link to="/posts" className="text-blue-600 hover:underline">
-            Posts
-          </Link>
-          <Link to="/profile" className="text-blue-600 hover:underline">
-            Profile
-          </Link>
-        </nav>
-
-        {/* Routes */}
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/posts" element={<PostsComponent />} />
-          <Route path="/profile/*" element={<Profile />} />
-        </Routes>
-      </div>
-    </BrowserRouter>
+    <div>
+      <h2 className="text-xl font-semibold">Profile Details</h2>
+      <p className="mt-2 text-gray-700">Here are your personal details.</p>
+    </div>
   );
 }
 
-export default App;
+function ProfileSettings() {
+  return (
+    <div>
+      <h2 className="text-xl font-semibold">Profile Settings</h2>
+      <p className="mt-2 text-gray-700">Here you can adjust your settings.</p>
+    </div>
+  );
+}
+
+// Main Profile component with nested routes
+export default function Profile() {
+  return (
+    <div>
+      <h1 className="text-2xl font-bold mb-4">Profile</h1>
+
+      {/* Profile Nav */}
+      <nav className="mb-4 space-x-4">
+        <Link to="details" className="text-blue-600 hover:underline">
+          Details
+        </Link>
+        <Link to="settings" className="text-blue-600 hover:underline">
+          Settings
+        </Link>
+      </nav>
+
+      {/* Nested Routes */}
+      <Routes>
+        <Route path="details" element={<ProfileDetails />} />
+        <Route path="settings" element={<ProfileSettings />} />
+      </Routes>
+    </div>
+  );
+}
